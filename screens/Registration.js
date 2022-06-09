@@ -3,7 +3,7 @@ import { Text, View, Button, StatusBar, Alert } from "react-native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import Input from "../Components/input";
 import { useNavigation } from "@react-navigation/native";
-import { app } from "./firebaseConfig";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Registration = () => {
@@ -14,6 +14,7 @@ const Registration = () => {
   const [passWord, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   let auth = getAuth();
+  const navigation = useNavigation();
   const handleEmail = (e) => {
     setEmail(e);
   };
@@ -57,7 +58,7 @@ const Registration = () => {
       );
       return;
     }
-    //  navigation.navigate("Home", { data });
+
     createUserWithEmailAndPassword(auth, email, passWord)
       .then((response) => {
         console.log(response.user);
@@ -65,6 +66,7 @@ const Registration = () => {
       .catch((err) => {
         Alert.alert(err.message[{ text: "okay", style: "destructive" }]);
       });
+    navigation.navigate("Home", { data });
     setEmail("");
     setEmpcode("");
     setName("");
